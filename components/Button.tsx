@@ -9,7 +9,7 @@ type Props = {
   outline?: boolean;
   onPress?: () => void;
   disabled?: boolean;
-  icon?: any;
+  icon?: React.ComponentType<{ color: string; size: number }>;
   style?: StyleProp<ViewStyle>;
 };
 
@@ -18,7 +18,7 @@ export default function Button({
   label,
   onPress,
   disabled,
-  icon,
+  icon: Icon,
   style,
 }: Props) {
   return (
@@ -42,7 +42,9 @@ export default function Button({
             style,
           ]}
         >
-          {icon}
+          {Icon && (
+            <Icon color={disabled ? Colors.lightGray : Colors.gray} size={28} />
+          )}
           <Text
             style={[
               styles.buttonText,

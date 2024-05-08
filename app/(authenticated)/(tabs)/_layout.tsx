@@ -30,7 +30,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Explore",
+          title: "",
+          tabBarLabel: "Explore",
           headerTransparent: true,
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="calendar-day" color={color} />

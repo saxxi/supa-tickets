@@ -48,39 +48,27 @@ const Page = () => {
         <Button
           label="Continue with Phone"
           disabled={true}
-          icon={
-            <Ionicons
-              name="mail-outline"
-              size={28}
-              style={{ color: Colors.lightGray }}
-            />
-          }
+          icon={({ color, size }) => (
+            <Ionicons name="mail-outline" size={size} style={{ color }} />
+          )}
           style={{ flex: 1 }}
         />
         <Button
           label="Continue with Apple"
           outline={true}
           disabled={true}
-          icon={
-            <Ionicons
-              name="logo-apple"
-              size={28}
-              style={{ color: Colors.lightGray }}
-            />
-          }
+          icon={({ color, size }) => (
+            <Ionicons name="logo-apple" size={size} style={{ color }} />
+          )}
           style={{ flex: 1 }}
         />
         <Button
           label="Continue with Google"
           outline={true}
           onPress={() => onSelectAuth(Strategy.Google)}
-          icon={
-            <Ionicons
-              name="logo-google"
-              size={28}
-              style={{ color: Colors.gray }}
-            />
-          }
+          icon={({ color, size }) => (
+            <Ionicons name="logo-google" size={size} style={{ color }} />
+          )}
           style={{ flex: 1 }}
         />
         <Button
@@ -88,13 +76,9 @@ const Page = () => {
           outline={true}
           disabled={true}
           onPress={() => onSelectAuth(Strategy.Facebook)}
-          icon={
-            <Ionicons
-              name="logo-facebook"
-              size={28}
-              style={{ color: Colors.lightGray }}
-            />
-          }
+          icon={({ color, size }) => (
+            <Ionicons name="logo-facebook" size={size} style={{ color }} />
+          )}
           style={{ flex: 1 }}
         />
       </View>
