@@ -1,5 +1,6 @@
+import { ImageSourcePropType } from "react-native";
 import { Distributor } from "./distributor";
-import { Image } from "./image";
+import { URLImage, FileImage } from "./image";
 
 export interface Ticket {
   id: string;
@@ -13,6 +14,6 @@ export interface Ticket {
   expired: boolean;
   purchased_date: Date | null;
   distributor: Distributor | null;
-  image: Image;
+  image: URLImage | FileImage;
   category: string;
 }

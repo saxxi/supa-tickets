@@ -1,4 +1,4 @@
-import { Image } from "@/interfaces/image"
+import { URLImage } from "@/interfaces/image"
 import { Distributor } from "@/interfaces/distributor"
 import { Ticket } from "@/interfaces/ticket"
 import { Category } from "@/interfaces/category";
@@ -10,7 +10,7 @@ const getTicketImages = async () => {
   // const rawResponse = await fetch(`https://pixabay.com/api/?key=${API_KEY}&category=music&image_type=photo&pretty=true`);
   // const jsonResponse = await rawResponse.json();
   // jsonResponse.hits.map...
-  return [...Array(10).keys()].map((hit: any, id): Image => ({
+  return [...Array(10).keys()].map((hit: any, id): URLImage => ({
     // url: hit.webformatURL,
     url: `https://dummyjson.com/image/400x200/008080/ffffff?text=hello ${id}&fontSize=16`,
     width: hit.webformatWidth,
@@ -57,20 +57,20 @@ export const staticTickets = async (): Promise<Ticket[]> => {
   const ticketImages = await getTicketImages()
 
   return [
-    { category: 'Music', title: 'Concert at Madison Square Garden', description: 'Enjoy live music at one of the most iconic venues in the world.' },
-    { category: 'Theater', title: 'Broadway Show: Hamilton', description: 'Experience the cultural phenomenon that is Hamilton.' },
-    { category: 'Sports', title: 'Sports Event: NBA Finals', description: 'Watch the excitement of the NBA Finals live.' },
-    { category: 'Music', title: 'Music Festival: Coachella', description: 'Join the ultimate music and arts festival in the California desert.' },
-    { category: 'Technology', title: 'TED Talk Conference', description: 'Expand your mind with inspiring talks from thought leaders and innovators.' },
-    { category: 'Art', title: 'Art Exhibition: The Louvre', description: 'Explore masterpieces of art and culture at one of the world\'s largest museums.' },
-    { category: 'Technology', title: 'Tech Conference: CES', description: 'Discover the latest in technology and innovation at the Consumer Electronics Show.' },
-    { category: 'Movies', title: 'Movie Premiere: Avengers: Endgame', description: 'Be among the first to see the epic conclusion to the Avengers saga.' },
-    { category: 'Comedy', title: 'Stand-up Comedy Show: Dave Chappelle Live', description: 'Laugh out loud with one of the greatest comedians of all time.' },
-    { category: 'Theater', title: 'Musical: The Phantom of the Opera', description: 'Experience the haunting romance of Broadway\'s longest-running show.' },
-    { category: 'Sports', title: 'Soccer Match: FIFA World Cup Final', description: 'Witness the drama and excitement of the world\'s most prestigious soccer tournament.' },
-    { category: 'Food & Drink', title: 'Food and Wine Festival', description: 'Indulge in gourmet cuisine and fine wines from around the world.' },
-    { category: 'Fashion', title: 'Fashion Week: Paris', description: 'Get a front-row seat to the latest trends and styles from top designers.' },
-    { category: 'Literature', title: 'Book Signing: Stephen King', description: 'Meet the legendary author and get your copy of his latest book signed.' },
+    { category: 'Music', title: 'Concert at Madison Square Garden', description: 'Enjoy live music at one of the most iconic venues in the world.', file_image: 'Concert at Madison Square Garden.jpg' },
+    { category: 'Sports', title: 'Sports Event: NBA Finals', description: 'Watch the excitement of the NBA Finals live.', file_image: 'Sports Event- NBA Finals.jpg' },
+    { category: 'Music', title: 'Music Festival: Coachella', description: 'Join the ultimate music and arts festival in the California desert.', file_image: 'Music Festival- Coachella.jpg' },
+    { category: 'Technology', title: 'TED Talk Conference', description: 'Expand your mind with inspiring talks from thought leaders and innovators.', file_image: 'TED Talk Conference.jpg' },
+    { category: 'Art', title: 'Art Exhibition: The Louvre', description: 'Explore masterpieces of art and culture at one of the world\'s largest museums.', file_image: 'Art Exhibition- The Louvre.jpg' },
+    { category: 'Technology', title: 'Tech Conference: CES', description: 'Discover the latest in technology and innovation at the Consumer Electronics Show.', file_image: 'Tech Conference- CES.jpg' },
+    { category: 'Movies', title: 'Movie Premiere: Avengers: Endgame', description: 'Be among the first to see the epic conclusion to the Avengers saga.', file_image: 'Movie Premiere- Avengers- Endgame.jpg' },
+    { category: 'Comedy', title: 'Stand-up Comedy Show: Dave Chappelle Live', description: 'Laugh out loud with one of the greatest comedians of all time.', file_image: 'Stand-up Comedy Show- Dave Chappelle Live.jpg' },
+    { category: 'Theater', title: 'Musical: The Phantom of the Opera', description: 'Experience the haunting romance of Broadway\'s longest-running show.', file_image: 'Musical- The Phantom of the Opera.jpg' },
+    { category: 'Sports', title: 'Soccer Match: FIFA World Cup Final', description: 'Witness the drama and excitement of the world\'s most prestigious soccer tournament.', file_image: 'Soccer Match- FIFA World Cup Final.jpg' },
+    { category: 'Food & Drink', title: 'Food and Wine Festival', description: 'Indulge in gourmet cuisine and fine wines from around the world.', file_image: 'Food and Wine Festival.jpg' },
+    { category: 'Fashion', title: 'Fashion Week: Paris', description: 'Get a front-row seat to the latest trends and styles from top designers.', file_image: 'Fashion Week- Paris.jpg' },
+    { category: 'Theater', title: 'Broadway Show: Hamilton', description: 'Experience the cultural phenomenon that is Hamilton.', file_image: 'Broadway Show- Hamilton.jpg' },
+    { category: 'Literature', title: 'Book Signing: Stephen King', description: 'Meet the legendary author and get your copy of his latest book signed.', file_image: 'Book Signing- Stephen King.jpg' },
     { category: 'History', title: 'Historical Tour: Machu Picchu', description: 'Journey through ancient ruins and breathtaking landscapes in Peru.' },
     { category: 'Gaming', title: 'Gaming Convention: E3', description: 'Explore the future of gaming with hands-on demos and exciting announcements.' },
     { category: 'Art', title: 'Opera: La Traviata', description: 'Savor the beauty and passion of Verdi\'s classic opera.' },
@@ -116,11 +116,11 @@ export const staticTickets = async (): Promise<Ticket[]> => {
     { category: 'Theater', title: 'Broadway Show: Wicked', description: 'Experience the untold story of the Witches of Oz in the hit musical, Wicked.' },
     { category: 'Food & Drink', title: 'Beer Festival: Great American Beer Festival', description: 'Celebrate craft beer culture with thousands of beers from hundreds of breweries at the Great American Beer Festival.' },
     { category: 'Music', title: 'Concert: Adele Live', description: 'Experience the powerhouse vocals of Adele live in concert.' }
-  ].map((ticket, index) => {
+  ].map(({ file_image, ...ticket }, index) => {
     return {
       ...ticket,
       distributor: distributors[index % (distributors.length - 1)],
-      image: ticketImages[index % (ticketImages.length - 1)],
+      image: file_image ? { file_image } : ticketImages[index % (ticketImages.length - 1)],
       id: `${index + 1}`,
       date: new Date(2024, 3, index + 1), // Assuming each event is on a different day in April 2024
       price_value: Math.floor(Math.random() * 100) + 50, // Random price between 50 and 150
