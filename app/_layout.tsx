@@ -184,6 +184,13 @@ export function InitialLayout() {
           }}
         />
         <Stack.Screen
+          name="(authenticated)/tickets/create"
+          options={{
+            headerTitle: "Create a ticket",
+            headerBackTitle: "Back",
+          }}
+        />
+        <Stack.Screen
           name="help"
           options={{ title: "Help", presentation: "modal" }}
         />

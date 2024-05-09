@@ -2,9 +2,11 @@ import { Text, View, StyleSheet, Pressable } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 
 import { Ticket } from "@/interfaces/ticket";
-import { theme } from "@/settings/theme";
-import InputField from "@/components/form/InputField";
+import { Theme } from "@/constants/Theme";
+import Colors from "@/constants/Colors";
+import TextInput from "@/components/form/TextInput";
 import ImagePicker from "@/components/form/ImagePicker";
+import Button from "@/components/Button";
 
 type TicketFormValues = Partial<Ticket>;
 
@@ -29,7 +31,7 @@ export default function CreateTicket() {
           required: true,
         }}
         render={({ field: { onChange, onBlur, value } }) => (
-          <InputField
+          <TextInput
             label="Title"
             onBlur={onBlur}
             onChangeText={onChange}
@@ -46,7 +48,7 @@ export default function CreateTicket() {
           required: true,
         }}
         render={({ field: { onChange, onBlur, value } }) => (
-          <InputField
+          <TextInput
             label="Description"
             onBlur={onBlur}
             onChangeText={onChange}
@@ -59,9 +61,7 @@ export default function CreateTicket() {
 
       <ImagePicker label="Pick an image..." />
 
-      <Pressable onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.button}>Create ticket</Text>
-      </Pressable>
+      <Button onPress={handleSubmit(onSubmit)} label="Create ticket" />
     </View>
   );
 }
@@ -69,19 +69,20 @@ export default function CreateTicket() {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+    paddingTop: 30,
   },
   inputForm: {
     marginBottom: 10,
   },
   label: {
-    fontWeight: theme.fontWeights.medium,
+    fontWeight: Theme.fontWeights.medium,
   },
   input: {
     flex: 1,
     borderWidth: 1,
-    borderColor: theme.colors.neutral(100),
+    borderColor: Colors.neutral(100),
     padding: 10,
-    borderRadius: theme.radius.xs,
+    borderRadius: Theme.radius.xs,
   },
   errorMessage: {
     color: "red",
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlign: "center",
     backgroundColor: "blue",
-    borderRadius: theme.radius.sm,
-    color: theme.colors.white,
+    borderRadius: Theme.radius.sm,
+    color: Colors.white,
   },
 });
