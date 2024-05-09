@@ -176,6 +176,14 @@ export function InitialLayout() {
           options={{ presentation: "modal", title: "Profile" }}
         />
         <Stack.Screen
+          name="(authenticated)/explore/tickets/[ticketId]"
+          options={{
+            presentation: "modal",
+            headerTitle: "",
+            headerTransparent: true,
+          }}
+        />
+        <Stack.Screen
           name="help"
           options={{ title: "Help", presentation: "modal" }}
         />

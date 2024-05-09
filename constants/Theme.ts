@@ -1,9 +1,10 @@
 export type ThemeType = {
   fontWeights: {
-    normal: 'normal' | 'bold' | '500' | '600' | '700';
-    medium: 'normal' | 'bold' | '500' | '600' | '700';
-    semibold: 'normal' | 'bold' | '500' | '600' | '700';
-    bold: 'normal' | 'bold' | '500' | '600' | '700';
+    light: 'normal' | '300' | 'bold' | '500' | '600' | '700';
+    normal: 'normal' | '300' | 'bold' | '500' | '600' | '700';
+    medium: 'normal' | '300' | 'bold' | '500' | '600' | '700';
+    semibold: 'normal' | '300' | 'bold' | '500' | '600' | '700';
+    bold: 'normal' | '300' | 'bold' | '500' | '600' | '700';
   };
   radius: {
     xs: number;
@@ -16,6 +17,7 @@ export type ThemeType = {
 
 export const Theme: ThemeType = {
   fontWeights: {
+    light: '300',
     normal: 'normal',
     medium: '500',
     semibold: '600',

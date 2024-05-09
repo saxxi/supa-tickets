@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { StyleSheet } from "react-native";
-import { useAuth, useUser } from "@clerk/clerk-expo";
 import { useQuery } from "@tanstack/react-query";
 import { useHeaderHeight } from "@react-navigation/elements";
 
 import Deployment from "@/constants/Deployment";
-import { Text, View } from "@/components/Themed";
+import { View } from "@/components/Themed";
 import ListAvailableTickets from "@/components/explore/ListAvailableTickets";
 import { Ticket } from "@/interfaces/ticket";
 
@@ -21,9 +20,6 @@ export default function ExploreScreen() {
     queryKey: ["tickets"],
     queryFn: fetchTickets,
   });
-  const { signOut, isSignedIn } = useAuth();
-  const { user } = useUser();
-
   return (
     <View style={(styles.container, { paddingTop: headerHeight })}>
       <ListAvailableTickets tickets={data?.tickets || null} />
