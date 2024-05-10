@@ -25,8 +25,8 @@ export const defaultStyles = StyleSheet.create({
   },
   descriptionText: {
     fontSize: 18,
-    marginTop: 20,
     color: Colors.gray,
+    marginBottom: 30,
   },
   buttonText: {
     color: '#fff',

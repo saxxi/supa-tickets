@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useQuery } from "@tanstack/react-query";
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 
 import { Ticket } from "@/interfaces/ticket";
 import Deployment from "@/constants/Deployment";
@@ -14,7 +14,6 @@ import Colors from "@/constants/Colors";
 import { SampleImage } from "@/components/SampleImage";
 import { Theme } from "@/constants/Theme";
 import Button from "@/components/Button";
-import { FontAwesome6, Ionicons } from "@expo/vector-icons";
 
 const fetchTicket = (ticketId: string): Promise<{ ticket: Ticket }> => {
   const url = `${Deployment.server_url}/api/tickets/${ticketId}`;
@@ -22,7 +21,6 @@ const fetchTicket = (ticketId: string): Promise<{ ticket: Ticket }> => {
 };
 
 export default function Page() {
-  const router = useRouter();
   const { ticketId } = useLocalSearchParams<{ ticketId: string }>();
   const { data } = useQuery<{ ticket: Ticket }>({
     queryKey: ["tickets", ticketId],

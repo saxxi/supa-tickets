@@ -1,5 +1,10 @@
 import React from "react";
-import { TextInput as RNTextInput, StyleSheet, View } from "react-native";
+import {
+  TextInput as RNTextInput,
+  StyleSheet,
+  TextInputProps,
+  View,
+} from "react-native";
 import { Text } from "react-native";
 
 import Colors from "@/constants/Colors";
@@ -7,19 +12,21 @@ import Colors from "@/constants/Colors";
 type Props = {
   label?: string;
   onChangeText?: (text: string) => void;
-  value?: any;
-  onBlur?: any;
+  value?: string | undefined;
   error?: string;
   disabled?: any;
+  secureTextEntry?: boolean | undefined;
+  other?: Omit<TextInputProps, "label" | "onChangeText" | "error" | "disabled">;
 };
 
 const TextInput = ({
   label,
   onChangeText,
   value,
-  onBlur,
   error,
   disabled,
+  secureTextEntry,
+  ...other
 }: Props) => {
   return (
     <View style={styles.container}>
@@ -32,8 +39,9 @@ const TextInput = ({
         ]}
         onChangeText={onChangeText}
         value={value}
-        onBlur={onBlur}
         editable={!disabled}
+        secureTextEntry={secureTextEntry}
+        {...other}
       />
       {error && <Text style={styles.errorText}>{error}</Text>}
     </View>

@@ -1,3 +1,4 @@
+import TextInput from "@/components/form/TextInput";
 import Colors from "@/constants/Colors";
 import { defaultStyles } from "@/constants/Styles";
 import { useSignUp } from "@clerk/clerk-expo";
@@ -7,20 +8,53 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
 const Page = () => {
-  const [countryCode, setCountryCode] = useState("+39");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const { isLoaded, signUp, setActive } = useSignUp();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [pendingVerification, setPendingVerification] = useState(false);
+  const [code, setCode] = useState("");
   const keyboardVerticalOffset = Platform.OS === "ios" ? 80 : 0;
-  const router = useRouter();
-  const { signUp } = useSignUp();
 
-  const onSignup = async () => {
-    router.replace("/(authenticated)/(tabs)");
+  const onSignUpPress = async () => {
+    if (!isLoaded) {
+      return;
+    }
+
+    try {
+      await signUp.create({
+        firstName,
+        lastName,
+        emailAddress,
+        password,
+      });
+      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+      setPendingVerification(true);
+    } catch (err: any) {
+      console.error(JSON.stringify(err, null, 2));
+    }
+  };
+
+  const onPressVerify = async () => {
+    if (!isLoaded) {
+      return;
+    }
+
+    try {
+      const completeSignUp = await signUp.attemptEmailAddressVerification({
+        code,
+      });
+
+      await setActive({ session: completeSignUp.createdSessionId });
+    } catch (err: any) {
+      console.error(JSON.stringify(err, null, 2));
+    }
   };
 
   return (
@@ -34,51 +68,84 @@ const Page = () => {
         <Text style={defaultStyles.descriptionText}>
           Sign up to get your tickets
         </Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Country code"
-            placeholderTextColor={Colors.gray}
-            value={countryCode}
-          />
-          <TextInput
-            style={[styles.input, { flex: 1 }]}
-            placeholder="Mobile number"
-            placeholderTextColor={Colors.gray}
-            keyboardType="numeric"
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
-          />
-        </View>
 
         <Link href={"/login"} replace asChild>
-          <TouchableOpacity>
-            <Text style={defaultStyles.textLink}>
-              Already have an account? Log in
-            </Text>
-          </TouchableOpacity>
+          <Text style={defaultStyles.textLink}>
+            Already have an account? Log in
+          </Text>
         </Link>
+
+        {pendingVerification && (
+          <View style={styles.inputContainer}>
+            <TextInput
+              value={code}
+              label="Your email code"
+              onChangeText={setCode}
+            />
+          </View>
+        )}
+
+        {!pendingVerification && (
+          <View style={styles.inputContainer}>
+            <TextInput
+              value={firstName}
+              label="First Name"
+              onChangeText={setFirstName}
+            />
+            <TextInput
+              value={lastName}
+              label="Last Name"
+              onChangeText={setLastName}
+            />
+            <TextInput
+              value={emailAddress}
+              label="Email"
+              onChangeText={setEmailAddress}
+            />
+            <TextInput
+              value={password}
+              label="Password"
+              secureTextEntry={true}
+              onChangeText={setPassword}
+            />
+          </View>
+        )}
 
         <View style={{ flex: 1 }} />
 
-        <TouchableOpacity
-          style={[
-            defaultStyles.pillButton,
-            phoneNumber !== "" ? styles.enabled : styles.disabled,
-            { marginBottom: 20 },
-          ]}
-          onPress={onSignup}
-        >
-          <Text style={defaultStyles.buttonText}>Sign up</Text>
-        </TouchableOpacity>
+        {pendingVerification && (
+          <TouchableOpacity
+            style={[
+              defaultStyles.pillButton,
+              styles.enabled,
+              { marginBottom: 20 },
+            ]}
+            onPress={onPressVerify}
+          >
+            <Text style={defaultStyles.buttonText}>Verify</Text>
+          </TouchableOpacity>
+        )}
+
+        {!pendingVerification && (
+          <TouchableOpacity
+            style={[
+              defaultStyles.pillButton,
+              styles.enabled,
+              { marginBottom: 20 },
+            ]}
+            onPress={onSignUpPress}
+          >
+            <Text style={defaultStyles.buttonText}>Sign up</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </KeyboardAvoidingView>
   );
 };
 const styles = StyleSheet.create({
   inputContainer: {
-    marginVertical: 40,
-    flexDirection: "row",
+    marginVertical: 60,
+    gap: 20,
   },
   input: {
     backgroundColor: Colors.lightGray,

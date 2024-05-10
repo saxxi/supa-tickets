@@ -1,11 +1,13 @@
-import { useOAuth } from "@clerk/clerk-expo";
+import { useOAuth, useSignIn } from "@clerk/clerk-expo";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 
 import { useWarmUpBrowser } from "@/hooks/useWarmUpBrowser";
 import Button from "@/components/Button";
 import Colors from "@/constants/Colors";
+import TextInput from "@/components/form/TextInput";
+import { useState } from "react";
 
 enum Strategy {
   Google = "oauth_google",
@@ -17,11 +19,30 @@ const Page = () => {
   useWarmUpBrowser();
 
   const router = useRouter();
+  const { signIn, setActive, isLoaded } = useSignIn();
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
   const { startOAuthFlow: googleAuth } = useOAuth({ strategy: "oauth_google" });
   const { startOAuthFlow: appleAuth } = useOAuth({ strategy: "oauth_apple" });
   const { startOAuthFlow: facebookAuth } = useOAuth({
     strategy: "oauth_facebook",
   });
+
+  const onSignInPress = async () => {
+    if (!isLoaded) {
+      return;
+    }
+
+    try {
+      const completeSignIn = await signIn.create({
+        identifier: emailAddress,
+        password,
+      });
+      await setActive({ session: completeSignIn.createdSessionId });
+    } catch (err: any) {
+      console.error(JSON.stringify(err, null, 2));
+    }
+  };
 
   const onSelectAuth = async (strategy: Strategy) => {
     const selectedAuth = {
@@ -44,6 +65,46 @@ const Page = () => {
 
   return (
     <View style={styles.container}>
+      <View>
+        <TextInput
+          value={emailAddress}
+          label="Email"
+          onChangeText={setEmailAddress}
+        />
+        <TextInput
+          value={password}
+          label="Password"
+          secureTextEntry={true}
+          onChangeText={setPassword}
+        />
+        <Button label="Sign in" onPress={onSignInPress} />
+      </View>
+
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 16,
+          marginVertical: 20,
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            height: StyleSheet.hairlineWidth,
+            backgroundColor: Colors.gray,
+          }}
+        />
+        <Text style={{ color: Colors.gray, fontSize: 20 }}>or</Text>
+        <View
+          style={{
+            flex: 1,
+            height: StyleSheet.hairlineWidth,
+            backgroundColor: Colors.gray,
+          }}
+        />
+      </View>
+
       <View style={{ gap: 20 }}>
         <Button
           label="Continue with Phone"
