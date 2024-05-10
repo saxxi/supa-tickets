@@ -1,10 +1,17 @@
-import { Image, ImageProps, ImageRequireSource } from "react-native";
+import {
+  Image,
+  ImageProps,
+  ImageRequireSource,
+  ImageStyle,
+  StyleProp,
+} from "react-native";
 
 import { URLImage, FileImage } from "@/interfaces/image";
 
 export const SampleImage: React.FC<{
   image: URLImage | FileImage;
-  otherProps?: Partial<ImageProps>;
+  style: StyleProp<ImageStyle> | undefined;
+  otherProps?: Omit<ImageProps, "image" | "style">;
 }> = ({ image, ...otherProps }) => {
   if ("url" in image) {
     return <Image source={{ uri: image.url }} {...otherProps} />;

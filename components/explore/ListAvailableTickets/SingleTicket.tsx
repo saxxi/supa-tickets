@@ -29,7 +29,6 @@ export default function SingleTicket({ ticket }: Props) {
         </View>
         <View style={styles.rightColumn}>
           <SampleImage image={ticket.image} style={styles.image} />
-          {/* <Image style={styles.image} source={{ uri: ticket.image.url }} /> */}
           <View>
             <Text style={styles.title}>{ticket.title}</Text>
             <Text style={styles.description}>{ticket.description}</Text>
